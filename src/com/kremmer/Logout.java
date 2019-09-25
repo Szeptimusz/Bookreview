@@ -1,4 +1,4 @@
-package com.kremmer.log;
+package com.kremmer;
 
 import java.io.IOException;
 

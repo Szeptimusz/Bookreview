@@ -1,4 +1,4 @@
-package com.kremmer.log;
+package com.kremmer;
 
 import java.io.IOException;
 
@@ -17,12 +17,12 @@ public class Login extends HttpServlet {
 		String uname = request.getParameter("uname");
 		String pass = request.getParameter("pass");
 		
-		LoginDao dao = new LoginDao();
+		Dao dao = new Dao();
 		try {
 			if (dao.check(uname,pass)) {
 				HttpSession session = request.getSession();
 				session.setAttribute("username", uname);
-				response.sendRedirect("reviews.jsp");
+				response.sendRedirect("BookProcessor");
 			} else {
 				response.sendRedirect("index.jsp");
 			}
