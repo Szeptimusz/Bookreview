@@ -6,11 +6,22 @@
 			</description>
 			<display-name>BookProcessor</display-name>
 			<servlet-name>BookProcessor</servlet-name>
-			<servlet-class>com.feldolgoz.BookProcessor</servlet-class>
+			<servlet-class>com.process.BookProcessor</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>SearchBook</display-name>
+			<servlet-name>SearchBook</servlet-name>
+			<servlet-class>com.process.SearchBook</servlet-class>
 		</servlet>
 		<servlet-mapping>
 			<servlet-name>BookProcessor</servlet-name>
 			<url-pattern>/BookProcessor</url-pattern>
+		</servlet-mapping>
+		<servlet-mapping>
+			<servlet-name>SearchBook</servlet-name>
+			<url-pattern>/SearchBook</url-pattern>
 		</servlet-mapping>
 		<welcome-file-list>
 			<welcome-file>index.html</welcome-file>

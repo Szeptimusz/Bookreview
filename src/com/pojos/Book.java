@@ -1,5 +1,11 @@
 package com.pojos;
 
+/**
+ * A könyveket reprezentáló osztály. Ennek segítségével történik meg
+ * a könyveket leíró adatok átadása.
+ * @author Szept
+ *
+ */
 public class Book {
 	private int id;
 	private String author;
