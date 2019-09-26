@@ -1,11 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-2"
+    pageEncoding="ISO-8859-2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+	<meta charset="ISO-8859-2">
+	<link rel="stylesheet" type="text/css" href="bookresults.css">
+	<title>Insert title here</title>
 </head>
 <body>
 	<%
@@ -24,8 +25,16 @@
 	<table>
 	    <c:forEach items="${books}" var="book">
 	        <tr>
-	            <td>${book.author}</td>
-	            <td>${book.title}</td>
+	            <td><span class="aut">Author: </span>${book.author}</td>
+	            <td><span class="tit">Title: </span>${book.title}</td>
+	            <td><span class="avg">Average Rating: </span>${book.reviewpoint}</td>
+	            <td><span class="rating">Rate this book (1-10):</span>
+	            	<form action="AddReview" method="GET">
+	            		<input type="hidden" name="bookId" value="${book.id}">
+	            		<input type="number" name="reviewPoint">
+	            		<textarea name="message"></textarea>
+						<input type="submit" name="addReview" value="Review the book!">
+	            	</form></td>
 	        </tr>
 	    </c:forEach>
 	</table>

@@ -1,5 +1,6 @@
 <html>
 <head>
+	<meta charset="ISO-8859-2">
 	<title>Review books!</title>
 	<link rel="stylesheet" type="text/css" href="index.css">
 </head>

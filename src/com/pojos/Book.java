@@ -10,11 +10,13 @@ public class Book {
 	private int id;
 	private String author;
 	private String title;
+	private float reviewpoint;
 	
-	public Book(int id, String author, String title) {
+	public Book(int id, String author, String title, float reviewpoint) {
 		this.id = id;
 		this.author = author;
 		this.title = title;
+		this.reviewpoint = reviewpoint;
 	}
 
 	public int getId() {
@@ -39,6 +41,14 @@ public class Book {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public float getReviewpoint() {
+		return reviewpoint;
+	}
+
+	public void setReviewpoint(float reviewpoint) {
+		this.reviewpoint = reviewpoint;
 	}
 	
 	

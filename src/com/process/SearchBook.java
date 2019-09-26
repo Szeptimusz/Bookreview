@@ -33,11 +33,14 @@ public class SearchBook extends HttpServlet {
 		String username = (String) session.getAttribute("username");
 		String author = request.getParameter("author");
 		String title = request.getParameter("title");
-		String filter;
-		if (author.isEmpty()) filter = "WHERE name != '" + username + "' AND title LIKE '%" + title + "%'";
-		else if (title.isEmpty()) filter = "WHERE name != '" + username + "' AND author LIKE '%" + author + "%'";
-		else filter = "WHERE name != '" + username + "' AND (author LIKE '%" + author + "%' OR "
-				+ "title LIKE '%" + title + "%')";
+		
+		// A segédlekérdezés megadja azoknak a bookid-knek a listáját, amiket a felhasználó értékelt
+		String filter = "WHERE books.id NOT IN (SELECT DISTINCT books.id FROM books JOIN reviews ON "
+				+ "books.id = bookid JOIN users ON userid = users.id WHERE name = '" + username + "') AND ";
+		
+		if (author.isEmpty()) filter += "title LIKE '%" + title + "%'";
+		else if (title.isEmpty()) filter += "author LIKE '%" + author + "%'";
+		else filter += "(author LIKE '%" + author + "%' OR title LIKE '%" + title + "%')";
 
 		try {
 			books = dao.getBook(filter);

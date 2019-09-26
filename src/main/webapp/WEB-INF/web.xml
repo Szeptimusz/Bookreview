@@ -15,6 +15,20 @@
 			<servlet-name>SearchBook</servlet-name>
 			<servlet-class>com.process.SearchBook</servlet-class>
 		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>AddBook</display-name>
+			<servlet-name>AddBook</servlet-name>
+			<servlet-class>com.process.AddBook</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>AddReview</display-name>
+			<servlet-name>AddReview</servlet-name>
+			<servlet-class>com.process.AddReview</servlet-class>
+		</servlet>
 		<servlet-mapping>
 			<servlet-name>BookProcessor</servlet-name>
 			<url-pattern>/BookProcessor</url-pattern>
@@ -22,6 +36,14 @@
 		<servlet-mapping>
 			<servlet-name>SearchBook</servlet-name>
 			<url-pattern>/SearchBook</url-pattern>
+		</servlet-mapping>
+		<servlet-mapping>
+			<servlet-name>AddBook</servlet-name>
+			<url-pattern>/AddBook</url-pattern>
+		</servlet-mapping>
+		<servlet-mapping>
+			<servlet-name>AddReview</servlet-name>
+			<url-pattern>/AddReview</url-pattern>
 		</servlet-mapping>
 		<welcome-file-list>
 			<welcome-file>index.html</welcome-file>
