@@ -16,30 +16,27 @@ import com.pojos.Book;
 import daos.Dao;
 
 /**
- * A BookResults.jsp-oldalon kilistázza azokat a könyveket, amiket a felhasználó még nem értékelt.
- * Jelenleg semmi nem hívja meg ezt a servletet!
- * @author Szept
- *
+ * 
  */
-public class BookProcessor extends HttpServlet {
+public class UserProfile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Dao dao = new Dao();
 		List<Book> books = new ArrayList<>();
-		
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
-		String filter = "WHERE name != '" + username + "'";
+		String filter = "JOIN reviews ON "
+				+ "books.id = bookid JOIN users ON userid = users.id WHERE name = '" + username + "'";
 		try {
-			books = dao.getBook(filter);
+			books = dao.getBooksWithMyReview(filter);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		
 		request.setAttribute("books", books);
-		RequestDispatcher rd = request.getRequestDispatcher("BookResults.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("Profile.jsp");
 		rd.forward(request, response);
-
 	}
+
 }

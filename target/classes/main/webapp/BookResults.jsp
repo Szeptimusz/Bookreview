@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="ISO-8859-2">
-	<link rel="stylesheet" type="text/css" href="bookresults.css">
+	<link rel="stylesheet" type="text/css" href="bookResults.css">
 	<title>Insert title here</title>
 </head>
 <body>
@@ -19,29 +19,41 @@
 		}
 	%>
 	
-	<h2>Welcome ${username}</h2> <br><br>
+	<!-- Kijelzi a bejelentkezett felhasználó nevét, a névre kattintva megnyitja a profilt -->
+	<span class="loggedUser">Logged user:</span>
+	<a href="UserProfile">${username}</a>
+	
+	
+	<!-- Kijelentkezési felület -->
+	<form action="Logout">
+		<input type="submit" value="Logout">
+	</form>
+	<br><br>
+	
+	
 	<h4>Search result(s):</h4>
 	<!-- Megjeleníti a keresésnek megfelelő könyveket -->
 	<table>
 	    <c:forEach items="${books}" var="book">
 	        <tr>
-	            <td><span class="aut">Author: </span>${book.author}</td>
-	            <td><span class="tit">Title: </span>${book.title}</td>
-	            <td><span class="avg">Average Rating: </span>${book.reviewpoint}</td>
-	            <td><span class="rating">Rate this book (1-10):</span>
-	            	<form action="AddReview" method="GET">
+	            <td><span class="blue">Author: </span>${book.author}</td>
+	            <td><span class="blue">Title: </span>${book.title}</td>
+	            <td><span class="blue">Average Rating: </span>${book.reviewpoint}</td>
+	            <td><form action="AddReview" method="GET">
 	            		<input type="hidden" name="bookId" value="${book.id}">
-	            		<input type="number" name="reviewPoint">
-	            		<textarea name="message"></textarea>
+	            		<span class="rating">Rate this book (1.0 - 10.0):</span><input type="number" name="reviewPoint"
+	            				min="1.0" max="10.0" step="0.1" required>
+	            		<span>Text review: </span><textarea name="message" maxlength="2000"></textarea>
 						<input type="submit" name="addReview" value="Review the book!">
 	            	</form></td>
 	        </tr>
 	    </c:forEach>
 	</table>
 	
-	<!-- Kijelentkezési felület -->
-	<form action="Logout">
-		<input type="submit" value="Logout">
+	
+	<!-- Visszalépés a belépés utáni főoldalra -->
+	<form action="http://localhost:8080/bookreview/search.jsp">
+    <input type="submit" value="Back to my main page" />
 	</form>
 </body>
 </html>

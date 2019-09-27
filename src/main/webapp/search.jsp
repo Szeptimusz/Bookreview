@@ -17,28 +17,33 @@
 			response.sendRedirect("index.jsp");
 		}
 	%>
-	
-	Welcome ${username}
+	<h1>Welcome <a href="UserProfile" style="text-decoration: none">${username}</a></h1>
 	<form action="Logout">
 		<input type="submit" value="Logout">
 	</form>
 	<br>
-	<h3>Here you can search a book:</h3>
-	<!-- Szerző és/vagy könyvcím alapján keresni lehet a könyvek között -->
-	<form action="SearchBook" method="GET">
-		Search by Author: <input type="text" name="author">
-		Search by Title: <input type="text" name="title">
-		<input type="submit" name="search" value="Search">
-	</form>
-	<br><br>
-	<h3>Or add your own book:</h3>
-	<form action="AddBook" method=GET>
-		<span>Author: </span><input type="text" name="author2">
-		<span>Title: </span><input type="text" name="title2">
-		<span>Rating: </span><input type="number" name="rate">
-		<span>Text review: </span><br>
-		<textarea name="message"></textarea>
-		<input type="submit" name="addbook" value="Add a new book">
-	</form>
+	<fieldset>
+		<h3>Here you can search a book:</h3>
+		<fieldset>
+			<!-- Szerző és/vagy könyvcím alapján keresni lehet a könyvek között -->
+			<form action="SearchBook" method="GET">
+				Search by Author: <input type="text" name="author" maxlength= "100">
+				Search by Title: <input type="text" name="title" maxlength="500">
+				<input type="submit" name="search" value="Search">
+			</form>
+		</fieldset>
+		<br><br>
+		<h3>Or add your own book:</h3>
+		<fieldset>
+			<form action="AddBook" method=GET>
+				<span>Author: </span><input type="text" name="author2" maxlength="100" required>
+				<span>Title: </span><input type="text" name="title2" maxlength="500" required>
+				<span>Rating: </span><input type="number" name="rate" min="1.0" max="10.0" step="0.1" required>
+				<span>Text review: </span>
+				<textarea name="message" maxlength="2000"></textarea>
+				<input type="submit" name="addbook" value="Add a new book">
+			</form>
+		</fieldset>
+	</fieldset>
 </body>
 </html>

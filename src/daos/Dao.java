@@ -145,8 +145,9 @@ public class Dao {
 				PreparedStatement ps = conn.prepareStatement(query)) {
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			rs.next();
-			newAvgPoint = rs.getFloat(1);
+			while (rs.next()) {
+				newAvgPoint = rs.getFloat(1);
+			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
@@ -162,5 +163,31 @@ public class Dao {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	public List<Book> getBooksWithMyReview(String filter) throws ClassNotFoundException {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		String query = "SELECT DISTINCT books.id, author, title, books.reviewpoint, reviews.reviewpoint"
+				+ ", reviewtext FROM books " + filter;
+		List<Book> booklist = new ArrayList<>();
+		try (Connection conn = DriverManager.getConnection(url,user,password);
+				PreparedStatement ps = conn.prepareStatement(query)) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				booklist.add(new Book(
+						rs.getInt("id"),
+						rs.getString("author"),
+						rs.getString("title"),
+						rs.getFloat("books.reviewpoint"),
+						rs.getFloat("reviews.reviewpoint"),
+						rs.getString("reviewtext")
+				));
+			}
+			return booklist;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+
 	}
 }

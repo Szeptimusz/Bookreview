@@ -33,7 +33,7 @@ public class AddReview extends HttpServlet {
 		}
 		
 		try {
-			dao.updateBookAvgPoint(userid);
+			dao.updateBookAvgPoint(bookid);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
