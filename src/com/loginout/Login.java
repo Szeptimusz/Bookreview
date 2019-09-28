@@ -1,7 +1,6 @@
 package com.loginout;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,12 +31,12 @@ public class Login extends HttpServlet {
 				if (dao.check(uname,pass)) {
 					HttpSession session = request.getSession();
 					session.setAttribute("username", uname);
+					session.setAttribute("message", "Successful login");
 					response.sendRedirect("search.jsp");
 				} else {
 					response.sendRedirect("index.jsp");
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}

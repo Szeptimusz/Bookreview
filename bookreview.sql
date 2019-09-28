@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1:3306
--- Létrehozás ideje: 2019. Sze 25. 19:08
+-- Létrehozás ideje: 2019. Sze 28. 09:53
 -- Kiszolgáló verziója: 5.7.26
 -- PHP verzió: 7.2.18
 
@@ -33,8 +33,9 @@ CREATE TABLE IF NOT EXISTS `books` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `author` varchar(100) COLLATE utf8mb4_hungarian_ci NOT NULL,
   `title` varchar(500) COLLATE utf8mb4_hungarian_ci NOT NULL,
+  `reviewpoint` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
 
@@ -47,11 +48,11 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bookid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
-  `reviewpoint` tinyint(4) NOT NULL,
+  `reviewpoint` float NOT NULL,
   `reviewtext` text COLLATE utf8mb4_hungarian_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
 
@@ -66,14 +67,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` text COLLATE utf8mb4_hungarian_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `users`
---
-
-INSERT INTO `users` (`id`, `name`, `password`) VALUES
-(1, 'szeptimusz', 'valami');
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

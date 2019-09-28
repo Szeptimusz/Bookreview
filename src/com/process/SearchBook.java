@@ -42,11 +42,7 @@ public class SearchBook extends HttpServlet {
 		else if (title.isEmpty()) filter += "author LIKE '%" + author + "%'";
 		else filter += "(author LIKE '%" + author + "%' OR title LIKE '%" + title + "%')";
 
-		try {
-			books = dao.getBook(filter);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		books = dao.getBook(filter);
 		
 		request.setAttribute("books", books);
 		RequestDispatcher rd = request.getRequestDispatcher("BookResults.jsp");

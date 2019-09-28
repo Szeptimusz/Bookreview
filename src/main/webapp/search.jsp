@@ -5,6 +5,10 @@
 <html>
 <head>
 <meta charset="ISO-8859-2">
+<script>
+	<!-- A session-ben tárolt üzenet megjelenítése (Bejelentkezés és regisztráció után) -->
+	<%@ include file="message.js"%>
+</script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -16,6 +20,9 @@
 		if (session.getAttribute("username") == null) {
 			response.sendRedirect("index.jsp");
 		}
+		
+		// Üzenet törlése a session-ből azért, hogy csak egyszer ugorjon fel
+		session.removeAttribute("message");
 	%>
 	<h1>Welcome <a href="UserProfile" style="text-decoration: none">${username}</a></h1>
 	<form action="Logout">
@@ -35,6 +42,7 @@
 		<br><br>
 		<h3>Or add your own book:</h3>
 		<fieldset>
+			<!-- Saját könyv hozzáadásához űrlap kitöltése -->
 			<form action="AddBook" method=GET>
 				<span>Author: </span><input type="text" name="author2" maxlength="100" required>
 				<span>Title: </span><input type="text" name="title2" maxlength="500" required>
@@ -47,3 +55,4 @@
 	</fieldset>
 </body>
 </html>
+<script type="text/javascript"> window.onload = alertMessage </script>

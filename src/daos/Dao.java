@@ -17,20 +17,26 @@ import com.pojos.Book;
  *
  */
 public class Dao {
-	String sql = "SELECT * FROM users WHERE name=? AND password=?;";
 	String url = "jdbc:mysql://localhost:3306/bookreview?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	String user = "admin";
 	String password = "admin";
+	
+	public Dao() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Belépési adatok ellenõrzése az adatbázisban
 	 * @param uname: Felhasználónév
 	 * @param pass: Jelszó
 	 * @return Visszaadja, hogy helyesek az adatok vagy nem
-	 * @throws ClassNotFoundException
 	 */
-	public boolean check(String uname, String pass) throws ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+	public boolean check(String uname, String pass) {
+		String sql = "SELECT * FROM users WHERE name=? AND password=SHA2(CONCAT(?),256);";
 		try (Connection conn = DriverManager.getConnection(url,user,password);
 				PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setString(1, uname);
@@ -49,10 +55,8 @@ public class Dao {
 	 * Könyvadatok lekérdezése megadott szempontok alapján
 	 * @param filter: A lekérdezést szûrõ SQL rész
 	 * @return A lekérdezett könyvekbõl álló lista
-	 * @throws ClassNotFoundException
 	 */
-	public List<Book> getBook(String filter) throws ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+	public List<Book> getBook(String filter) {
 		String query = "SELECT DISTINCT books.id, author, title, books.reviewpoint FROM books " + filter;
 		List<Book> booklist = new ArrayList<>();
 		try (Connection conn = DriverManager.getConnection(url,user,password);
@@ -74,8 +78,12 @@ public class Dao {
 
 	}
 	
-	public int getUserId(String username) throws ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+	/**
+	 * Lekérdezi az adatbázisból, hogy az adott névhez milyen id tartozik
+	 * @param username: Felhasználónév
+	 * @return Az adatbázisban a felhasználónévhez tartozó id
+	 */
+	public int getUserId(String username) {
 		String query = "SELECT users.id FROM users WHERE name = ?";
 		try (Connection conn = DriverManager.getConnection(url,user,password);
 				PreparedStatement ps = conn.prepareStatement(query)) {
@@ -92,8 +100,14 @@ public class Dao {
 		return -1;
 	}
 	
-	public int addBook(String author, String title, float reviewpoint) throws ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+	/**
+	 * Új könyv hozzáadása az adatbázishoz
+	 * @param author: Könyv szerzõje
+	 * @param title: Könyv címe
+	 * @param reviewpoint: A könyv értékelése számszerûen
+	 * @return A hozzáadott könyv automatikusan generált id-je az adatbázisban
+	 */
+	public int addBook(String author, String title, float reviewpoint) {
 		String into = "INSERT INTO books (author, title, reviewpoint) VALUES(?,?,?)";
 		try (Connection conn = DriverManager.getConnection(url,user,password);
 				PreparedStatement ps = conn.prepareStatement(into,Statement.RETURN_GENERATED_KEYS)) {
@@ -113,8 +127,15 @@ public class Dao {
 		return -1;
 	}
 	
-	public int addReview(int bookid, int userid, float reviewpoint, String reviewtext) throws ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+	/**
+	 * Új értékelés hozzáadása az adatbázishoz
+	 * @param bookid: A könyv id-je
+	 * @param userid: A felhasználó id-je
+	 * @param reviewpoint: Az értékelés során adott pont
+	 * @param reviewtext: Az értékelés során adott szöveges üzenet
+	 * @return Az adatbázishoz hozzáadott értékelés id-je
+	 */
+	public int addReview(int bookid, int userid, float reviewpoint, String reviewtext) {
 		String into = "INSERT INTO reviews (bookid, userid, reviewpoint, reviewtext) "
 				+ "VALUES (?,?,?,?)";
 		try (Connection conn = DriverManager.getConnection(url,user,password);
@@ -136,9 +157,13 @@ public class Dao {
 		return -1;
 	}
 	
-	public void updateBookAvgPoint(int id) throws ClassNotFoundException {
+	/**
+	 * Új értékelés hozzáadása után ez a metódus frissíti az adott könyv átlagos értékelési pontját.
+	 * Elõször kiszámítja, hogy mennyi az új átlagos értékelése a könyvnek, majd beállítja az értéket
+	 * @param id: A megváltozott átlag értékelésû könyv id-je
+	 */
+	public void updateBookAvgPoint(int id) {
 		float newAvgPoint = -1;
-		Class.forName("com.mysql.cj.jdbc.Driver");
 		String query = "SELECT ROUND(SUM(reviews.reviewpoint) / COUNT(*),1) FROM reviews JOIN books ON books.id = bookid"
 				+ " WHERE books.id = ?";
 		try (Connection conn = DriverManager.getConnection(url,user,password);
@@ -165,8 +190,12 @@ public class Dao {
 		}
 	}
 	
-	public List<Book> getBooksWithMyReview(String filter) throws ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+	/**
+	 * Szûréssel lekérdezi a könyv és a hozzá tartozó értékelés adatait
+	 * @param filter: A lekérdezés szûrõje (táblák kapcsolódása, felhasználó szûrése)
+	 * @return A lekérdezett könyvekbõl álló lista
+	 */
+	public List<Book> getBooksWithMyReview(String filter) {
 		String query = "SELECT DISTINCT books.id, author, title, books.reviewpoint, reviews.reviewpoint"
 				+ ", reviewtext FROM books " + filter;
 		List<Book> booklist = new ArrayList<>();
@@ -189,5 +218,50 @@ public class Dao {
 			return null;
 		}
 
+	}
+
+	/**
+	 * Megadja, hogy az adott felhasználó létezik-e az adatbázisban
+	 * @param username: A felhasználó neve
+	 * @return Megadja, hogy létezik-e a users-adattáblában a név
+	 */
+	public boolean userExist(String username)  {
+		String query = "SELECT * FROM users WHERE name = ?";
+		try (Connection conn = DriverManager.getConnection(url,user,password);
+				PreparedStatement ps = conn.prepareStatement(query)) {
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Hozzáadja az adatbázishoz az új felhasználó adatait
+	 * @param username: A felhasználó neve
+	 * @param pass: A felhasználó által megadott jelszó (Hash-kódként tárolja el az adatbázisban)
+	 * @return Megadja, hogy sikeres volt-e az adatbázisba írás
+	 */
+	public boolean addNewUser(String username, String pass) {
+		String into = "INSERT INTO users (name, password) "
+				+ "VALUES (?, SHA2(CONCAT(?),256))";
+		try (Connection conn = DriverManager.getConnection(url,user,password);
+				PreparedStatement ps = conn.prepareStatement(into)) {
+			ps.setString(1, username);
+			ps.setString(2, pass);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 }

@@ -16,7 +16,8 @@ import com.pojos.Book;
 import daos.Dao;
 
 /**
- * 
+ * A felhasználónévre kattintva lekérdezi a felhasználó által már értékelt könyveket és megjeleníti a
+ * Profile.jsp-oldalt (ami ezeket az adatokat kiolvassa és megjeleníti)
  */
 public class UserProfile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,11 +29,7 @@ public class UserProfile extends HttpServlet {
 		String username = (String) session.getAttribute("username");
 		String filter = "JOIN reviews ON "
 				+ "books.id = bookid JOIN users ON userid = users.id WHERE name = '" + username + "'";
-		try {
-			books = dao.getBooksWithMyReview(filter);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		books = dao.getBooksWithMyReview(filter);
 		
 		request.setAttribute("books", books);
 		RequestDispatcher rd = request.getRequestDispatcher("Profile.jsp");

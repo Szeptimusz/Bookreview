@@ -5,7 +5,9 @@
 <html>
 <head>
 	<meta charset="ISO-8859-2">
-	<link rel="stylesheet" type="text/css" href="bookResults.css">
+	<style>
+     	<%@ include file="bookResults.css"%>
+	</style>
 	<title>Insert title here</title>
 </head>
 <body>

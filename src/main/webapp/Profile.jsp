@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-2"
-    pageEncoding="ISO-8859-2"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="ISO-8859-2"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="bookResults.css">
+	<!-- <link rel="stylesheet" type="text/css" href="bookResults.css"> -->
 	<meta charset="ISO-8859-2">
+	<style>
+     <%@ include file="bookResults.css"%>
+	</style>
 	<title>Insert title here</title>
 </head>
 <body>
@@ -18,7 +21,6 @@
 			response.sendRedirect("index.jsp");
 		}
 	%>
-	
 	<h1>${username}'s Account</h1>
 	<!-- Kijelentkezési felület -->
 	<form action="Logout">

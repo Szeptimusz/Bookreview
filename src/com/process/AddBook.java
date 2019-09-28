@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import daos.Dao;
 
 /**
- * 
+ * A kapott paraméterek alapján új könyvet ad hozzá az adatbázishoz
  */
 public class AddBook extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,13 +26,9 @@ public class AddBook extends HttpServlet {
 		float reviewpoint = Float.parseFloat(request.getParameter("rate"));
 		String reviewtext = request.getParameter("message");
 		
-		try {
-			int userid = dao.getUserId(username);
-			int bookid = dao.addBook(author, title, reviewpoint);
-			dao.addReview(bookid, userid, reviewpoint, reviewtext);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		int userid = dao.getUserId(username);
+		int bookid = dao.addBook(author, title, reviewpoint);
+		dao.addReview(bookid, userid, reviewpoint, reviewtext);
 		
 		response.sendRedirect("search.jsp");
 	}
