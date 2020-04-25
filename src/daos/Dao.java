@@ -2,13 +2,14 @@ package daos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.cj.api.jdbc.Statement;
+import com.mysql.cj.jdbc.PreparedStatement;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
 import com.pojos.Book;
 
 /**
@@ -17,9 +18,9 @@ import com.pojos.Book;
  *
  */
 public class Dao {
-	String url = "jdbc:mysql://localhost:3306/bookreview?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	String user = "admin";
-	String password = "admin";
+	String url = "jdbc:mysql://localhost:3308/bookreview?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	String user = "root";
+	String password = "";
 	
 	public Dao() {
 		try {

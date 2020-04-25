@@ -44,7 +44,7 @@
 	
 	
 	<!-- Visszalépés a belépés utáni fõoldalra -->
-	<form action="http://localhost:8080/bookreview/search.jsp">
+	<form action="http://localhost:8081/bookreview/search.jsp">
     <input type="submit" value="Back to my main page" />
 	</form>
 </body>

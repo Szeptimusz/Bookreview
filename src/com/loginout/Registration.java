@@ -25,19 +25,18 @@ public class Registration extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("message", "Username is already taken");
 			response.sendRedirect("index.jsp");
-		}
-		
-		String password = request.getParameter("pass1");
-		HttpSession session = request.getSession();
-		if (dao.addNewUser(username, password)) {
-			session.setAttribute("username", username);
-			session.setAttribute("message", "Successful registration and login!");
-			response.sendRedirect("search.jsp");
 		} else {
-			session.setAttribute("message", "Registration failed!");
-			response.sendRedirect("index.jsp");
+			String password = request.getParameter("pass1");
+			HttpSession session = request.getSession();
+			if (dao.addNewUser(username, password)) {
+				session.setAttribute("username", username);
+				session.setAttribute("message", "Successful registration and login!");
+				response.sendRedirect("search.jsp");
+			} else {
+				session.setAttribute("message", "Registration failed!");
+				response.sendRedirect("index.jsp");
+			}
 		}
-
 	}
 
 }

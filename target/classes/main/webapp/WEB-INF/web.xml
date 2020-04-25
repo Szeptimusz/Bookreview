@@ -1,4 +1,3 @@
-
 	<web-app id="WebApp_ID">
 		<display-name>bookreview</display-name>
 		<servlet>
